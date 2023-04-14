@@ -2,11 +2,12 @@ window.addEventListener('DOMContentLoaded', navigator, false);
 window.addEventListener('hashchange', navigator, false);
 
 searchFormBtn.addEventListener('click', () => {
-    location.hash = '#search=';
+    location.hash = '#search=' + searchFormInput.value;
 });
 
 arrowBtn.addEventListener('click', () => {
-    location.hash = '#home';
+    history.back();
+    //location.hash = '#home';
 });
 
 trendingBtn.addEventListener('click', () => {
@@ -42,6 +43,8 @@ function trendPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+    getTrendingMoviesPage();
+    headerCategoryTitle.innerHTML = 'Tendencias'
     console.log('trends!!');
 }
 function searchPage() {
@@ -50,20 +53,25 @@ function searchPage() {
     arrowBtn.classList.remove('inactive');
     arrowBtn.classList.remove('header-arrow-white');
     headerTitle.classList.add('inactive');
-    headerCategoryTitle.classList.remove('inactive');
+    headerCategoryTitle.classList.add('inactive');
     searchForm.classList.remove('inactive');
 
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+
+    //[#search=, searchValue]
+    const [_, searchValue] = location.hash.split('=');
+    getMoviesBySearch(searchValue);
+
     console.log('search!!');
 }
 function movieDetailsPage() {
     headerSection.classList.add('header-container--long');
     headerSection.style.background = '';
     arrowBtn.classList.remove('inactive');
-    arrowBtn.classList.add('header-arrow-white');
+    arrowBtn.classList.add('header-arrow--white');
     headerTitle.classList.add('inactive');
     headerCategoryTitle.classList.add('inactive');
     searchForm.classList.add('inactive');
@@ -72,6 +80,9 @@ function movieDetailsPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.remove('inactive');
+
+    const [_, movieId] = location.hash.split('=');
+    getMovieById(movieId);
     console.log('movie!!');
 }
 function categoryPage() {
